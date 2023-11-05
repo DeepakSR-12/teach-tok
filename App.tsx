@@ -22,12 +22,10 @@ const tokenCache = {
   },
 };
 
-const CLERK_PUBLISHABLE_KEY = "1234";
-
 const App = () => {
   return (
     <ClerkProvider
-      publishableKey={CLERK_PUBLISHABLE_KEY}
+      publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
       tokenCache={tokenCache}
     >
       <SafeAreaProvider>

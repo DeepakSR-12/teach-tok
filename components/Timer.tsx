@@ -1,6 +1,6 @@
 import { useAuth } from "@clerk/clerk-expo";
 import { useState, useEffect } from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 
 function Timer() {
   const [timeElapsed, setTimeElapsed] = useState<number>(0);
@@ -18,7 +18,25 @@ function Timer() {
     return () => clearInterval(interval);
   }, [isSignedIn, sessionId]);
 
-  return <Text className="text-white ml-1">{timeElapsed}s</Text>;
+  const hours = Math.floor(timeElapsed / 3600);
+  const minutes = Math.floor((timeElapsed % 3600) / 60);
+  const seconds = timeElapsed % 60;
+
+  const hoursElement = !!hours ? `${hours} hr${hours > 1 ? "s" : ""} : ` : null;
+  const minutesElement = !!minutes
+    ? `${minutes} min${minutes > 1 ? "s" : ""} : `
+    : null;
+  const secondsElement = !!seconds ? `${seconds} s` : null;
+
+  return (
+    <View className="flex flex-wrap ml-2">
+      <Text className="text-white">
+        {hoursElement}
+        {minutesElement}
+        {secondsElement}
+      </Text>
+    </View>
+  );
 }
 
 export default Timer;
