@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native-bidirectional-infinite-scroll";
 import Loader from "../components/Loader";
 import Questions from "../components/Questions";
