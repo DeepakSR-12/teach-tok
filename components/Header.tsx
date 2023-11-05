@@ -18,7 +18,7 @@ const Header: React.FC<HeaderProps> = () => {
         <Text className="text-base text-white font-bold">For You</Text>
         <View className="border-b-4 border-white w-8 pb-1" />
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity className="pr-2">
         <Ionicons name="ios-search" size={24} color="white" />
       </TouchableOpacity>
     </View>
