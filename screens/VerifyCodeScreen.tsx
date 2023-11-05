@@ -10,11 +10,15 @@ import {
 import { useSignUp } from "@clerk/clerk-expo";
 import { styles } from "../components/Styles";
 import Navbar from "../components/Navbar";
+import { useNavigation } from "@react-navigation/native";
 
-export default function VerifyCodeScreen({ navigation }) {
+interface VerifyCodeScreenProps {}
+
+const VerifyCodeScreen: React.FC<VerifyCodeScreenProps> = () => {
   const { isLoaded, signUp, setSession } = useSignUp();
 
   const [code, setCode] = useState("");
+  const navigation = useNavigation();
 
   const onPress = async () => {
     if (!isLoaded) {
@@ -27,8 +31,9 @@ export default function VerifyCodeScreen({ navigation }) {
       });
 
       await setSession(completeSignUp.createdSessionId);
-      navigation.navigate("Dashboard");
-    } catch (err) {
+
+      navigation.navigate("Dashboard" as never);
+    } catch (err: any) {
       Alert.alert(err?.errors[0]?.longMessage);
     }
   };
@@ -52,4 +57,6 @@ export default function VerifyCodeScreen({ navigation }) {
       </View>
     </SafeAreaView>
   );
-}
+};
+
+export default VerifyCodeScreen;

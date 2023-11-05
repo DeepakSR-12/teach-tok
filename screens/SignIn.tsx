@@ -8,15 +8,20 @@ import {
   View,
 } from "react-native";
 import { useSignIn } from "@clerk/clerk-expo";
-import { OAuthButtons } from "../components/OAuth";
+import OAuthButtons from "../components/OAuth";
 import { styles } from "../components/Styles";
 import Navbar from "../components/Navbar";
+import { useNavigation } from "@react-navigation/native";
 
-export default function SignInScreen({ navigation }) {
+interface SignInScreenProps {}
+
+const SignInScreen: React.FC<SignInScreenProps> = () => {
   const { signIn, setSession, isLoaded } = useSignIn();
 
-  const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
+  const navigation = useNavigation();
+
+  const [emailAddress, setEmailAddress] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const onSignInPress = async () => {
     if (!isLoaded) {
@@ -30,16 +35,16 @@ export default function SignInScreen({ navigation }) {
       });
 
       await setSession(completeSignIn.createdSessionId);
-      navigation.navigate("Dashboard");
-    } catch (err) {
+      navigation.navigate("Dashboard" as never);
+    } catch (err: any) {
       Alert.alert(err?.errors[0]?.message);
     }
   };
 
-  const onSignUpPress = () => navigation.replace("SignUp");
+  const onSignUpPress = () => navigation.navigate("SignUp" as never);
 
   return (
-    <SafeAreaView className="flex-1  bg-[#111827]">
+    <SafeAreaView className="flex-1  bg-black">
       <Navbar />
       <View style={styles.container}>
         <View style={styles.oauthView}>
@@ -85,4 +90,6 @@ export default function SignInScreen({ navigation }) {
       </View>
     </SafeAreaView>
   );
-}
+};
+
+export default SignInScreen;

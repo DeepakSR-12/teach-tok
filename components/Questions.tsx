@@ -18,15 +18,19 @@ import {
 } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import Header from "./Header";
+import { QuizObject } from "../store";
 
-function Questions({ item }) {
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [responseAnswer, setResponseAnswer] = useState({
+function Questions({ item }: { item: QuizObject }) {
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [responseAnswer, setResponseAnswer] = useState<{
+    id: number | null;
+    option: string | null;
+  }>({
     id: null,
     option: null,
   });
 
-  const fetchAnswer = async (id) => {
+  const fetchAnswer = async (id: number) => {
     try {
       const response = await fetch(
         `https://cross-platform.rp.devfactory.com/reveal?id=${id}`
@@ -50,13 +54,13 @@ function Questions({ item }) {
       Animated.timing(bounceAnim, {
         toValue: 1.2,
         duration: 500,
-        easing: Easing.elastic(),
+        easing: Easing.elastic(1),
         useNativeDriver: true,
       }),
       Animated.timing(bounceAnim, {
         toValue: 1,
         duration: 500,
-        easing: Easing.elastic(),
+        easing: Easing.elastic(1),
         useNativeDriver: true,
       }),
     ])

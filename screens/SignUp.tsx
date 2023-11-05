@@ -9,13 +9,18 @@ import {
 } from "react-native";
 import { useSignUp } from "@clerk/clerk-expo";
 import { styles } from "../components/Styles";
-import { OAuthButtons } from "../components/OAuth";
+import OAuthButtons from "../components/OAuth";
 import Navbar from "../components/Navbar";
+import { useNavigation } from "@react-navigation/native";
 
-export default function SignUpScreen({ navigation }) {
+interface SignUpScreenProps {}
+
+const SignUpScreen: React.FC<SignUpScreenProps> = () => {
   const { isLoaded, signUp } = useSignUp();
-  const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
+  const [emailAddress, setEmailAddress] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const navigation = useNavigation();
 
   const onSignUpPress = async () => {
     if (!isLoaded) {
@@ -30,13 +35,13 @@ export default function SignUpScreen({ navigation }) {
 
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
 
-      navigation.navigate("VerifyCode");
-    } catch (err) {
+      navigation.navigate("VerifyCode" as never);
+    } catch (err: any) {
       Alert.alert(err?.errors[0]?.message);
     }
   };
 
-  const onSignInPress = () => navigation.replace("SignIn");
+  const onSignInPress = () => navigation.navigate("SignIn" as never);
 
   return (
     <SafeAreaView className="flex-1  bg-black">
@@ -85,4 +90,6 @@ export default function SignUpScreen({ navigation }) {
       </View>
     </SafeAreaView>
   );
-}
+};
+
+export default SignUpScreen;

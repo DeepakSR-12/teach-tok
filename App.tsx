@@ -6,14 +6,14 @@ import Navigator from "./components/Navigator";
 import * as SecureStore from "expo-secure-store";
 
 const tokenCache = {
-  async getToken(key) {
+  async getToken(key: string) {
     try {
       return SecureStore.getItemAsync(key);
     } catch (err) {
       return null;
     }
   },
-  async saveToken(key, value) {
+  async saveToken(key: string, value: string) {
     try {
       return SecureStore.setItemAsync(key, value);
     } catch (err) {
@@ -24,7 +24,7 @@ const tokenCache = {
 
 const CLERK_PUBLISHABLE_KEY = "1234";
 
-export default function App() {
+const App = () => {
   return (
     <ClerkProvider
       publishableKey={CLERK_PUBLISHABLE_KEY}
@@ -39,4 +39,6 @@ export default function App() {
       </SafeAreaProvider>
     </ClerkProvider>
   );
-}
+};
+
+export default App;

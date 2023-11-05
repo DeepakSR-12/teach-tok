@@ -9,7 +9,9 @@ import { useAuth } from "@clerk/clerk-expo";
 
 const Stack = createNativeStackNavigator();
 
-export default function Navigator() {
+interface NavigatorProps {}
+
+const Navigator: React.FC<NavigatorProps> = () => {
   const { isSignedIn } = useAuth();
   return (
     <Stack.Navigator
@@ -23,4 +25,6 @@ export default function Navigator() {
       <Stack.Screen name="Dashboard" component={Dashboard} />
     </Stack.Navigator>
   );
-}
+};
+
+export default Navigator;

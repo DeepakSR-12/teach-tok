@@ -3,7 +3,9 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Timer from "./Timer";
 
-export default function Header() {
+interface HeaderProps {}
+
+const Header: React.FC<HeaderProps> = () => {
   return (
     <View className="flex flex-row justify-between items-center px-4 py-2">
       <View className="flex flex-row items-center">
@@ -19,4 +21,6 @@ export default function Header() {
       <Ionicons name="ios-search" size={24} color="white" />
     </View>
   );
-}
+};
+
+export default Header;

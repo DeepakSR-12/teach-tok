@@ -6,7 +6,9 @@ import { useAuth } from "@clerk/clerk-expo";
 
 const BACKGROUND = "#263238";
 
-export default function LandingHero() {
+interface LandingHeroProps {}
+
+const LandingHero: React.FC<LandingHeroProps> = () => {
   const { isSignedIn } = useAuth();
   const navigation = useNavigation();
 
@@ -44,7 +46,9 @@ export default function LandingHero() {
         <TouchableOpacity
           className="font-semibold bg-white p-2 rounded-full"
           onPress={() =>
-            navigation.navigate(isSignedIn ? "Dashboard" : "SignUp")
+            navigation.navigate(
+              isSignedIn ? ("Dashboard" as never) : ("SignUp" as never)
+            )
           }
         >
           <Text className="text-lg text-center font-bold">Start For Free</Text>
@@ -56,7 +60,7 @@ export default function LandingHero() {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -76,3 +80,5 @@ const styles = StyleSheet.create({
     color: "#111827",
   },
 });
+
+export default LandingHero;

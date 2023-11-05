@@ -2,10 +2,15 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useRef, useEffect } from "react";
 import { View, Text, Animated, Easing } from "react-native";
 
-export default function Loader({
+interface LoaderProps {
+  spinNeeded?: boolean;
+  text?: string;
+}
+
+const Loader: React.FC<LoaderProps> = ({
   spinNeeded = true,
-  text = "AI is thinking...",
-}) {
+  text = "Content is Loading...",
+}) => {
   // Use useRef hook to create and access spinValue
   const spinValue = useRef(new Animated.Value(0)).current;
 
@@ -50,4 +55,6 @@ export default function Loader({
       </Text>
     </View>
   );
-}
+};
+
+export default Loader;

@@ -17,7 +17,7 @@
     "@react-navigation/native-stack": "^6.9.13",
     "@stream-io/flat-list-mvcp": "^0.10.3",
     "@sucho/react-native-typewriter": "^1.0.0",
-    "@types/react": "~18.2.14",
+    "@types/react": "^18.2.35",
     "axios": "^1.4.0",
     "clsx": "^2.0.0",
     "expo": "^49.0.0",

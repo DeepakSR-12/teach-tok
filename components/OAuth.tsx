@@ -4,15 +4,12 @@ import { Alert, Text, TouchableOpacity } from "react-native";
 import { useOAuth } from "@clerk/clerk-expo";
 import { styles } from "./Styles";
 import { useNavigation } from "@react-navigation/native";
-// import { useWamUpBrowser } from "../hooks/useWarmUpBrowser";
 
 WebBrowser.maybeCompleteAuthSession();
 
-export function OAuthButtons() {
-  // Warm up the android browser to improve UX
-  // https://docs.expo.dev/guides/authentication/#improving-user-experience
-  //   useWamUpBrowser();
+interface OAuthButtonsProps {}
 
+const OAuthButtons: React.FC<OAuthButtonsProps> = () => {
   const navigation = useNavigation();
   const { startOAuthFlow } = useOAuth({
     strategy: "oauth_google",
@@ -20,14 +17,13 @@ export function OAuthButtons() {
 
   const onPress = useCallback(async () => {
     try {
-      const { createdSessionId, signIn, signUp, setActive } =
-        await startOAuthFlow();
+      const { createdSessionId, setActive } = await startOAuthFlow();
 
-      if (createdSessionId) {
+      if (createdSessionId && setActive) {
         setActive({ session: createdSessionId });
-        navigation.navigate("Dashboard");
+        navigation.navigate("Dashboard" as never);
       }
-    } catch (err) {
+    } catch (err: any) {
       Alert.alert(err?.errors[0]?.message);
     }
   }, []);
@@ -40,4 +36,6 @@ export function OAuthButtons() {
       <Text style={styles.secondaryButtonText}>Continue with Google</Text>
     </TouchableOpacity>
   );
-}
+};
+
+export default OAuthButtons;

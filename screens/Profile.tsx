@@ -1,42 +1,48 @@
+import {
+  Modal,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useState } from "react";
-import { View, TouchableOpacity, Text, Modal, Alert } from "react-native";
+import { StatusBar } from "react-native";
+import Navbar from "../components/Navbar";
 import { useAuth } from "@clerk/clerk-expo";
 import { useNavigation } from "@react-navigation/native";
-import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
+import useAppStore from "../store";
+import { Alert } from "react-native";
 
-export default function Navbar() {
-  const [modalVisible, setModalVisible] = useState(false);
-  const { isSignedIn, signOut } = useAuth();
+interface ProfileProps {}
+
+const Profile: React.FC<ProfileProps> = () => {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const { signOut } = useAuth();
   const navigation = useNavigation();
+  const { data } = useAppStore();
 
   const handleSignOut = async () => {
-    await signOut()?.then(() => navigation.navigate("Landing"));
+    await signOut()?.then(() => navigation.navigate("Landing" as never));
     Alert.alert("You are successfully signed out");
     setModalVisible(false);
   };
 
   return (
-    <View className="flex flex-row items-center p-5 justify-between">
+    <SafeAreaView className="bg-black h-screen">
+      <StatusBar barStyle="light-content" />
+      <Navbar />
+      <View>
+        <Text className="text-white text-base font-semibold p-6">
+          User Name:{" "}
+          <Text className="text-xl font-bold">{data[0]?.user?.name}</Text>
+        </Text>
+      </View>
       <TouchableOpacity
-        onPress={() => navigation.navigate(isSignedIn ? "Home" : "Landing")}
-        className="flex-row flex-start items-center mt-3"
+        className="mt-20 p-4 mx-auto rounded-xl bg-white"
+        onPress={() => setModalVisible(!modalVisible)}
       >
-        <MaterialCommunityIcons
-          name="book-education-outline"
-          size={28}
-          color="white"
-        />
-        <Text className="text-3xl ml-4 font-bold text-white">TeachTok</Text>
+        <Text className="text-black">Sign out</Text>
       </TouchableOpacity>
-
-      {isSignedIn ? (
-        <TouchableOpacity
-          className="mt-3"
-          onPress={() => setModalVisible(!modalVisible)}
-        >
-          <FontAwesome name="user" size={32} color="white" />
-        </TouchableOpacity>
-      ) : null}
 
       <Modal
         animationType="fade"
@@ -69,6 +75,8 @@ export default function Navbar() {
           </View>
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
-}
+};
+
+export default Profile;

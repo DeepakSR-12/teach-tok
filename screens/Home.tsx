@@ -5,10 +5,11 @@ import Loader from "../components/Loader";
 import Questions from "../components/Questions";
 import useAppStore from "../store";
 
-export default function Home() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isInitialLoading, setIsInitialLoading] = useState(false);
-  const flatListRef = useRef(null);
+interface HomeProps {}
+
+const Home: React.FC<HomeProps> = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isInitialLoading, setIsInitialLoading] = useState<boolean>(false);
   const { data, setData } = useAppStore();
 
   const fetchQuestions = async () => {
@@ -32,13 +33,6 @@ export default function Home() {
       }
 
       setData([...data, ...newEntries]);
-
-      if (flatListRef.current) {
-        flatListRef.current.scrollToIndex({
-          index: data.length - 1,
-          viewPosition: 0.5,
-        });
-      }
     } catch (error) {
       console.error(error);
     }
@@ -60,7 +54,6 @@ export default function Home() {
         </View>
       ) : (
         <FlatList
-          ref={flatListRef}
           data={data}
           keyExtractor={(item) =>
             `${item.id.toString()}-${Math.floor(Math.random() * 10000)}`
@@ -75,14 +68,13 @@ export default function Home() {
             )
           }
           onEndReachedThreshold={3}
-          onEndReached={async () => {
-            if (!isLoading) {
-              await fetchQuestions();
-            }
-          }}
+          onEndReached={fetchQuestions}
           ListFooterComponent={() => isLoading && <Loader />}
+          onStartReached={undefined as any}
         />
       )}
     </>
   );
-}
+};
+
+export default Home;
